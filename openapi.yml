@@ -1,0 +1,1595 @@
+openapi: 3.0.1
+info:
+  title: api
+  version: 0.0.9
+paths:
+  /deviceModels/{id}:
+    get:
+      description: Retrieves the details of an existing device model.
+      operationId: DeviceService.retrieve
+      tags:
+        - DeviceService
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/DevicesDeviceId'
+          examples:
+            Example1:
+              value: dmd_0SNlurA04OUskUGfGAn3Rh
+            Example2:
+              value: myInvalidId
+            Example3:
+              value: myInvalidId
+      responses:
+        '200':
+          description: Returns the device model object if it exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevicesDevice'
+              examples:
+                Example1:
+                  value:
+                    object: deviceModel
+                    id: dmd_0SNlurA04OUskUGfGAn3Rh
+                    brand: Apple
+                    name: iPhone 12 Pro
+                    simTypes:
+                      - eSIM
+                    type: smartphone
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonsDoesNotExistBody'
+              examples:
+                Example1:
+                  value:
+                    object: error
+                    message: Invalid ICCID format.
+                    type: invalid
+                Example2:
+                  value:
+                    object: error
+                    code: invalidICCID
+                    details:
+                      - object: propertyErrorDetail
+                        code: propertyRequired
+                        message: Invalid value for property.
+                        property: property1
+                        suggestion: alternative_value
+                    documentation:
+                      - >-
+                        https://developers.gigs.com/docs/api/ZG9jOjExMTYzMDU0-error-handling
+                    hint: Parameter iccid must match /^([0-9]{19}F?|[0-9]{20})$/i
+                    message: Invalid ICCID format.
+                    type: invalid
+      security: &ref_0
+        - BearerAuth: []
+  /projects/{project}/plans/:
+    get:
+      operationId: PlanService.list
+      tags:
+        - PlanService
+      parameters:
+        - name: project
+          in: path
+          description: The unique identifier for the project.
+          required: true
+          schema:
+            type: string
+          examples:
+            Example1:
+              value: gigs
+        - name: after
+          in: query
+          description: >-
+            A cursor for use in pagination. The `after` parameter takes an
+            object ID that defines the position in the list, only items
+            immediately following the item with that ID will be returned.
+          required: false
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: >-
+            A cursor for use in pagination. The `before` parameter takes an
+            object ID that defines the position in the list, only items
+            immediately preceding the item with that ID will be returned.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: >-
+            The limit of items to be returned in the list, between 0 and 200.
+            `>= 0` `<= 200`. Default is `10`.
+          required: false
+          schema:
+            type: integer
+        - name: plan
+          in: query
+          description: The unique identifier for the plan to be filtered by.
+          required: false
+          schema:
+            $ref: '#/components/schemas/PlansPlanId'
+        - name: sim
+          in: query
+          description: The unique identifier for the sim to be filtered by.
+          required: false
+          schema:
+            $ref: '#/components/schemas/SimsSimId'
+        - name: status
+          in: query
+          description: >-
+            The status to filter the plans by. Only available plans are returned
+            by default.
+          required: false
+          schema:
+            $ref: '#/components/schemas/PlansPlanStatus'
+        - name: user
+          in: query
+          description: The unique identifier for the user to be filtered by.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a list of plan objects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansPlanList'
+              examples:
+                Example1:
+                  value:
+                    object: list
+                    items:
+                      - object: plan
+                        id: pln_0SNlurA049MEWV3V0q7gjQbM4EVo
+                        coverage:
+                          object: coverage
+                          id: de
+                          countries:
+                            - DE
+                            - FR
+                            - US
+                          name: Europe
+                        data: 10000000000
+                        dataUnit: byte
+                        description: >-
+                          A data plan you will love! Operates in most countries
+                          of the world.
+                        image: https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png
+                        name: Gigs Global
+                        price:
+                          amount: 999
+                          currency: USD
+                        provider: p5
+                        requirements:
+                          address: present
+                          device: none
+                          user.birthday: none
+                          user.fullName: present
+                        simTypes:
+                          - eSIM
+                          - pSIM
+                        sms: 100
+                        smsUnit: message
+                        status: available
+                        tags:
+                          - smartphone
+                          - travel
+                        validity:
+                          minimumPeriods: 12
+                          type: oneTime
+                          unit: day
+                          value: 7
+                        voice: 30000
+                        voiceUnit: second
+                        createdAt: '2021-01-21T19:38:34Z'
+                    moreItemsAfter: null
+                    moreItemsBefore: null
+      security: *ref_0
+  /projects/{project}/plans/{id}/archive:
+    get:
+      description: >-
+        Set the status of a plan to archived. An archived plan can not be used
+        to create new subscriptions.
+      operationId: PlanService.archive
+      tags:
+        - PlanService
+      parameters:
+        - name: project
+          in: path
+          description: The unique identifier for the project.
+          required: true
+          schema:
+            type: string
+          examples:
+            Example1:
+              value: gigs
+        - name: id
+          in: path
+          description: The unique identifier for the plan.
+          required: true
+          schema:
+            $ref: '#/components/schemas/PlansPlanId'
+          examples:
+            Example1:
+              value: pln_0SNlurA049MEWV3V0q7gjQbM4EVo
+      responses:
+        '200':
+          description: Returns the archived plan.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansPlan'
+              examples:
+                Example1:
+                  value:
+                    object: plan
+                    id: pln_0SNlurA049MEWV3V0q7gjQbM4EVo
+                    coverage:
+                      object: coverage
+                      id: de
+                      countries:
+                        - DE
+                        - FR
+                        - US
+                      name: Europe
+                    data: 10000000000
+                    dataUnit: byte
+                    description: >-
+                      A data plan you will love! Operates in most countries of
+                      the world.
+                    image: https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png
+                    name: Gigs Global
+                    price:
+                      amount: 999
+                      currency: USD
+                    provider: p5
+                    requirements:
+                      address: present
+                      device: none
+                      user.birthday: none
+                      user.fullName: present
+                    simTypes:
+                      - eSIM
+                      - pSIM
+                    sms: 100
+                    smsUnit: message
+                    status: available
+                    tags:
+                      - smartphone
+                      - travel
+                    validity:
+                      minimumPeriods: 12
+                      type: oneTime
+                      unit: day
+                      value: 7
+                    voice: 30000
+                    voiceUnit: second
+                    createdAt: '2021-01-21T19:38:34Z'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonsDoesNotExistBody'
+      security: *ref_0
+  /projects/{project}:
+    get:
+      description: >-
+        Retrieves the details of an existing project accessible by the API
+        client.
+      operationId: ProjectService.retrieve
+      tags:
+        - ProjectService
+      parameters:
+        - name: project
+          in: path
+          description: The unique identifier for the project.
+          required: true
+          schema:
+            $ref: '#/components/schemas/ProjectsProjectId'
+          examples:
+            Example1:
+              value: gigs
+      responses:
+        '200':
+          description: Returns the project object if it exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectsProject'
+              examples:
+                Example1:
+                  value:
+                    object: project
+                    id: gigs
+                    legal:
+                      name: Gigs Inc.
+                      city: New York City
+                      country: US
+                      line1: 129 West 81st Street
+                      line2: Apartment 5A
+                      postalCode: '10024'
+                      state: NY
+                    locales:
+                      - en-US
+                    name: Gigs Connect
+                    organization:
+                      object: organization
+                      id: org_0SNlurA04kOdemVEMVZQBF
+                      name: Gigs
+                      createdAt: '2021-02-01T13:21:30Z'
+                    payments:
+                      currency: USD
+                      mode: live
+                    subscriptionOwner: company
+                    support:
+                      email: support@gigs.com
+                      phoneNumber: '+12345678900'
+                    createdAt: '2021-01-21T19:32:13Z'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonsDoesNotExistBody'
+      security: *ref_0
+  /projects/{project}/subscriptions:
+    post:
+      description: >-
+        Creates a new subscription for an existing user in the specified
+        project.
+      operationId: SubscriptionService.create
+      tags:
+        - SubscriptionService
+      parameters:
+        - name: project
+          in: path
+          description: The unique identifier for the project.
+          required: true
+          schema:
+            $ref: '#/components/schemas/ProjectsProjectId'
+          examples:
+            Example1:
+              value: gigs
+      responses:
+        '200':
+          description: Returns the newly created subscription and supporting objects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionsSubscription'
+              examples:
+                Example1:
+                  value:
+                    object: subscription
+                    id: sub_0SNlurA049MEWV2gSfSxi00xlPIi
+                    currentPeriod:
+                      number: 1
+                      start: '2021-01-21T19:32:13Z'
+                      end: '2021-02-20T19:38:34Z'
+                    phoneNumber: '+25411865216434'
+                    plan:
+                      object: plan
+                      id: pln_0SNlurA049MEWV3V0q7gjQbM4EVo
+                      coverage:
+                        object: coverage
+                        id: de
+                        countries:
+                          - DE
+                          - FR
+                          - US
+                        name: Europe
+                      data: 10000000000
+                      dataUnit: byte
+                      description: >-
+                        A data plan you will love! Operates in most countries of
+                        the world.
+                      image: https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png
+                      name: Gigs Global
+                      price:
+                        amount: 999
+                        currency: USD
+                      provider: p5
+                      requirements:
+                        address: present
+                        device: none
+                        user.birthday: none
+                        user.fullName: present
+                      simTypes:
+                        - eSIM
+                        - pSIM
+                      sms: 100
+                      smsUnit: message
+                      status: available
+                      tags:
+                        - smartphone
+                        - travel
+                      validity:
+                        minimumPeriods: 12
+                        type: oneTime
+                        unit: day
+                        value: 7
+                      voice: 30000
+                      voiceUnit: second
+                      createdAt: '2021-01-21T19:38:34Z'
+                    porting: prt_0SNlurA049MEWV39s2kSYqaat7ZS
+                    sim:
+                      object: sim
+                      id: sim_0SNlurA049MEWV1BAAmWZULA4lf6
+                      iccid: '89883070000007537119'
+                      provider: p4
+                      status: inactive
+                      type: eSIM
+                      createdAt: '2021-01-21T19:38:34Z'
+                    status: pending
+                    user:
+                      object: user
+                      id: usr_0SNlurA049MEWV4OpCwsNyC9Kn2d
+                      birthday: '2017-07-21'
+                      email: john.doe@example.com
+                      emailVerified: true
+                      fullName: John Doe
+                      preferredLocale: en-US
+                      createdAt: '2021-01-21T19:38:34Z'
+                    activatedAt: '2021-01-21T19:38:34Z'
+                    canceledAt: '2021-01-29T13:22:51Z'
+                    createdAt: '2021-01-21T19:32:13Z'
+                    endedAt: '2021-02-20T19:38:34Z'
+                    firstUsageAt: '2021-01-21T19:38:34Z'
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                plan:
+                  type: string
+                  description: >-
+                    The unique identifier for the existing plan to be used for
+                    the subscription.
+                sim:
+                  type: string
+                  description: >-
+                    The unique identifier for the existing SIM to be used for
+                    the subscription. In combination with an eSIM plan, it can
+                    be omitted to request a new eSIM.
+                userAddress:
+                  type: string
+                  description: >-
+                    The unique identifier for the existing user address to be
+                    used for the subscription. Only needed if the plan requires
+                    an address.
+                user:
+                  type: string
+                  description: >-
+                    The unique identifier for the existing user to which the
+                    subscription will be assigned.
+                porting:
+                  type: string
+                  description: >-
+                    The unique identifier for the existing draft porting to be
+                    used for the subscription.
+              required:
+                - plan
+                - user
+            examples:
+              Example1:
+                value:
+                  plan: pln_0SNlurA049MEWV3V0q7gjQbM4EVo
+                  sim: sim_0SNlurA049MEWV1BAAmWZULA4lf6
+                  userAddress: adr_0SNlurA049MEWV5ELDmnaqVXgTFT
+                  user: usr_0SNlurA049MEWV4OpCwsNyC9Kn2d
+                  porting: prt_0SNlurA049MEWV39s2kSYqaat7ZS
+    get:
+      description: >-
+        Returns a list of subscriptions. The subscriptions returned are sorted
+        by creation date, with the most recently created subscriptions appearing
+        first.
+      operationId: SubscriptionService.listAll
+      tags:
+        - SubscriptionService
+      parameters:
+        - name: project
+          in: path
+          description: The unique identifier for the project.
+          required: true
+          schema:
+            $ref: '#/components/schemas/ProjectsProjectId'
+          examples:
+            Example1:
+              value: gigs
+        - name: after
+          in: query
+          description: >-
+            A cursor for use in pagination. The `after` parameter takes an
+            object ID that defines the position in the list, only items
+            immediately following the item with that ID will be returned.
+          required: false
+          schema:
+            type: string
+        - name: before
+          in: query
+          description: >-
+            A cursor for use in pagination. The `before` parameter takes an
+            object ID that defines the position in the list, only items
+            immediately preceding the item with that ID will be returned.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: >-
+            The limit of items to be returned in the list, between 0 and 200.
+            `>= 0` `<= 200`. Default is `10`.
+          required: false
+          schema:
+            type: integer
+        - name: plan
+          in: query
+          description: The unique identifier for the plan to be filtered by.
+          required: false
+          schema:
+            $ref: '#/components/schemas/PlansPlanId'
+        - name: sim
+          in: query
+          description: The unique identifier for the sim to be filtered by.
+          required: false
+          schema:
+            $ref: '#/components/schemas/SimsSimId'
+        - name: status
+          in: query
+          description: >-
+            A comma-separated list of statuses to filter the subscriptions by.
+            Only pending and active subscriptions are returned by default.
+            Default is `pending` `active`.
+          required: false
+          schema:
+            $ref: '#/components/schemas/SubscriptionsSubscriptionStatus'
+        - name: user
+          in: query
+          description: The unique identifier for the user to be filtered by.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: >-
+            Returns a list of subscriptions. The subscriptions returned are
+            sorted by creation date, with the most recently created
+            subscriptions appearing first.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionsSubscriptionList'
+              examples:
+                Example1:
+                  value:
+                    object: list
+                    items:
+                      - object: subscription
+                        id: sub_0SNlurA049MEWV2gSfSxi00xlPIi
+                        currentPeriod:
+                          number: 1
+                          start: '2021-01-21T19:32:13Z'
+                          end: '2021-02-20T19:38:34Z'
+                        phoneNumber: '+25411865216434'
+                        plan:
+                          object: plan
+                          id: pln_0SNlurA049MEWV3V0q7gjQbM4EVo
+                          coverage:
+                            object: coverage
+                            id: de
+                            countries:
+                              - DE
+                              - FR
+                              - US
+                            name: Europe
+                          data: 10000000000
+                          dataUnit: byte
+                          description: >-
+                            A data plan you will love! Operates in most
+                            countries of the world.
+                          image: >-
+                            https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png
+                          name: Gigs Global
+                          price:
+                            amount: 999
+                            currency: USD
+                          provider: p5
+                          requirements:
+                            address: present
+                            device: none
+                            user.birthday: none
+                            user.fullName: present
+                          simTypes:
+                            - eSIM
+                            - pSIM
+                          sms: 100
+                          smsUnit: message
+                          status: available
+                          tags:
+                            - smartphone
+                            - travel
+                          validity:
+                            minimumPeriods: 12
+                            type: oneTime
+                            unit: day
+                            value: 7
+                          voice: 30000
+                          voiceUnit: second
+                          createdAt: '2021-01-21T19:38:34Z'
+                        porting: prt_0SNlurA049MEWV39s2kSYqaat7ZS
+                        sim:
+                          object: sim
+                          id: sim_0SNlurA049MEWV1BAAmWZULA4lf6
+                          iccid: '89883070000007537119'
+                          provider: p4
+                          status: inactive
+                          type: eSIM
+                          createdAt: '2021-01-21T19:38:34Z'
+                        status: pending
+                        user:
+                          object: user
+                          id: usr_0SNlurA049MEWV4OpCwsNyC9Kn2d
+                          birthday: '2017-07-21'
+                          email: john.doe@example.com
+                          emailVerified: true
+                          fullName: John Doe
+                          preferredLocale: en-US
+                          createdAt: '2021-01-21T19:38:34Z'
+                        activatedAt: '2021-01-21T19:38:34Z'
+                        canceledAt: '2021-01-29T13:22:51Z'
+                        createdAt: '2021-01-21T19:32:13Z'
+                        endedAt: '2021-02-20T19:38:34Z'
+                        firstUsageAt: '2021-01-21T19:38:34Z'
+                    moreItemsAfter: null
+                    moreItemsBefore: null
+      security: *ref_0
+  /projects/{project}/users:
+    post:
+      description: Creates a new user with the given parameters.
+      operationId: UserService.create
+      tags:
+        - UserService
+      parameters:
+        - name: project
+          in: path
+          description: The unique identifier for the project.
+          required: true
+          schema:
+            $ref: '#/components/schemas/ProjectsProjectId'
+          examples:
+            Example1:
+              value: gigs
+      responses:
+        '200':
+          description: Returns the created user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersUser'
+              examples:
+                Example1:
+                  value:
+                    object: user
+                    id: usr_0SNlurA049MEWV4OpCwsNyC9Kn2d
+                    birthday: '2017-07-21'
+                    email: john.doe@example.com
+                    emailVerified: true
+                    fullName: John Doe
+                    preferredLocale: en-US
+                    createdAt: '2021-01-21T19:38:34Z'
+        '422':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonsInvalidICCIDBody'
+      security: *ref_0
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                object:
+                  $ref: '#/components/schemas/UsersUserObject'
+                  description: Type of object is always `user`.
+                birthday:
+                  type: string
+                  description: The birthday of the user.
+                email:
+                  type: string
+                  description: The primary verified email address of the user.
+                fullName:
+                  type: string
+                  description: >-
+                    The user's full name. Some plans require the user name to be
+                    present when creating a subscription. Check the plan
+                    requirements for that.
+                preferredLocale:
+                  type: string
+                  description: >-
+                    The user's locale preference represented as an [IETF
+                    language
+                    tag](https://en.wikipedia.org/wiki/IETF_language_tag). It
+                    defaults to the project's preferred locale.
+              required:
+                - object
+                - birthday
+                - email
+                - fullName
+                - preferredLocale
+            examples:
+              Example1:
+                value:
+                  object: user
+                  birthday: '2017-07-21'
+                  email: john.doe@example.com
+                  fullName: John Doe
+                  preferredLocale: en-US
+components:
+  schemas:
+    CommonsDoesNotExistBody:
+      type: object
+      properties:
+        object:
+          type: string
+          description: Type of object is always `error`.
+        code:
+          type: string
+          description: A machine-readable description of the error.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommonsPropertyErrorDetail'
+          description: >-
+            Optional array containing specific information for the current
+            error.Show all...
+        documentation:
+          type: array
+          items:
+            type: string
+          description: >-
+            An optional list of URLs providing further information to resolve
+            the error.
+        hint:
+          type: string
+          description: An optional explanation how to resolve the error.
+        message:
+          type: string
+          description: A human readable description of the error.
+        type:
+          type: string
+          description: The type of error returned.
+      required:
+        - object
+        - message
+        - type
+    CommonsInvalidICCIDBody:
+      type: object
+      properties:
+        object:
+          $ref: '#/components/schemas/CommonsInvalidICCIDBodyObject'
+          description: Type of object is always `error`.
+        code:
+          type: string
+          description: A machine-readable description of the error.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommonsPropertyErrorDetail'
+          description: >-
+            Optional array containing specific information for the current
+            error.
+        documentation:
+          type: array
+          items:
+            type: string
+          description: >-
+            An optional list of URLs providing further information to resolve
+            the error.
+        hint:
+          type: string
+          description: An optional explanation how to resolve the error.
+        message:
+          type: string
+          description: A human readable description of the error.
+        type:
+          type: string
+          description: >-
+            The type of
+            [error](https://developers.gigs.com/docs/api/ZG9jOjExMTYzMDU0-error-handling)
+            returned.
+      required:
+        - object
+        - message
+        - type
+    CommonsPropertyErrorDetail:
+      type: object
+      properties:
+        object:
+          $ref: '#/components/schemas/CommonsPropertyErrorDetailObject'
+          description: Type of object is always `propertyErrorDetail`.
+        code:
+          type: string
+          description: A machine-readable description of the error.
+        message:
+          type: string
+          description: A human readable description of the error.
+        property:
+          type: string
+          description: Name of the property associated with the error.
+        suggestion:
+          type: string
+          description: Suggested alternative value for the field.
+      required:
+        - object
+        - code
+        - message
+        - property
+    CommonsPropertyErrorDetailObject:
+      type: string
+      enum:
+        - propertyErrorDetail
+    CommonsInvalidICCIDBodyObject:
+      type: string
+      enum:
+        - error
+    DevicesDeviceId:
+      type: string
+    DevicesDevice:
+      type: object
+      properties:
+        object:
+          type: string
+          description: Type of object is always `deviceModel`.
+        id:
+          $ref: '#/components/schemas/DevicesDeviceId'
+          description: Unique identifier for the deviceModel.
+        brand:
+          type: string
+          description: The brand of the device model.
+        name:
+          type: string
+          description: The device model's name.
+        simTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimsSimTypes'
+          description: List of SIM types supported by this device model.
+        type:
+          $ref: '#/components/schemas/DevicesDeviceModelType'
+          description: The type of the device model.
+      required:
+        - object
+        - id
+        - brand
+        - name
+        - simTypes
+        - type
+    DevicesDeviceModelType:
+      type: string
+      enum:
+        - car
+        - iot
+        - laptop
+        - router
+        - smartphone
+        - feature_phone
+        - smartwatch
+        - tablet
+        - wearable
+        - other
+    PlansPlanId:
+      type: string
+    PlansPlan:
+      type: object
+      properties:
+        object:
+          $ref: '#/components/schemas/PlansPlanObject'
+          description: Type of object is always `plan`.
+        id:
+          $ref: '#/components/schemas/PlansPlanId'
+          description: The unique identifier for the plan.
+        coverage:
+          $ref: '#/components/schemas/PlansCoverage'
+        data:
+          type: integer
+          description: >-
+            The data allowance included in this plan. A value of `-1` indicates
+            unlimited data.
+        dataUnit:
+          $ref: '#/components/schemas/PlansDataUnit'
+          description: The unit of the data value is always `byte`.
+        description:
+          type: string
+          description: The plan's description, meant to be displayable to the users.
+        image:
+          type: string
+          description: The plan's image, meant to be displayable to the users.
+        name:
+          type: string
+          description: The plan's name, meant to be displayable to the users.
+        price:
+          $ref: '#/components/schemas/PlansPrice'
+        provider:
+          type: string
+          description: The ID of the network provider supported by this plan.
+        requirements:
+          $ref: '#/components/schemas/PlansPlanRequirements'
+        simTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimsSimTypes'
+          description: List of SIM types supported by this plan.
+        sms:
+          type: integer
+          description: >-
+            The SMS allowance included in this plan. A value of `-1` indicates
+            unlimited SMS.
+        smsUnit:
+          $ref: '#/components/schemas/PlansPlanSmsUnit'
+          description: The unit of the sms value is always `message`.
+        status:
+          $ref: '#/components/schemas/PlansPlanStatus'
+        tags:
+          type: array
+          items:
+            type: string
+          description: List of tags describing this plan.
+        validity:
+          $ref: '#/components/schemas/PlansValidity'
+        voice:
+          type: integer
+          description: >-
+            The voice call allowance in seconds included in this plan. A value
+            of `-1` indicates unlimited voice calls.
+        voiceUnit:
+          $ref: '#/components/schemas/PlansVoiceUnit'
+          description: The unit of the voice value is always `second`.
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the plan was created.
+      required:
+        - object
+        - id
+        - coverage
+        - data
+        - dataUnit
+        - image
+        - name
+        - price
+        - provider
+        - requirements
+        - simTypes
+        - sms
+        - smsUnit
+        - status
+        - tags
+        - validity
+        - voice
+        - voiceUnit
+        - createdAt
+    PlansPlanStatus:
+      type: string
+      enum:
+        - available
+        - archived
+        - pending
+        - draft
+    PlansPlanList:
+      type: object
+      properties:
+        object:
+          $ref: '#/components/schemas/PlansPlanListObject'
+          description: Type of object is always `list`.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlansPlan'
+          description: List of objects of type `plan`.
+        moreItemsAfter:
+          type: string
+          description: >-
+            A unique identifier to be used as `after` pagination parameter if
+            more items are available sorted after the current batch of items.
+        moreItemsBefore:
+          type: string
+          description: >-
+            A unique identifier to be used as `before` pagination parameter if
+            more items are available sorted before the current batch of items.
+      required:
+        - object
+        - items
+    PlansPlanObject:
+      type: string
+      enum:
+        - plan
+    PlansPlanListObject:
+      type: string
+      enum:
+        - list
+    PlansVoiceUnit:
+      type: string
+      enum:
+        - second
+    PlansValidity:
+      type: object
+      properties:
+        minimumPeriods:
+          type: integer
+          description: >-
+            The minimum number of subscription periods that the plan must be
+            renewed. `>= 0`
+        type:
+          $ref: '#/components/schemas/PlansValidityType'
+          description: The validity type of this plan.
+        unit:
+          $ref: '#/components/schemas/PlansValidityUnit'
+          description: The time unit of the subscription period.
+        value:
+          type: integer
+          description: >-
+            The amount of units (specified in the `unit` property) in each
+            subscription period. `>= 1`
+      required:
+        - minimumPeriods
+        - type
+        - unit
+        - value
+    PlansValidityType:
+      type: string
+      enum:
+        - oneTime
+        - recurring
+    PlansValidityUnit:
+      type: string
+      enum:
+        - day
+        - month
+    PlansPlanSmsUnit:
+      type: string
+      enum:
+        - message
+    PlansPlanRequirements:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/PlansPlanRequirementsAddress'
+          description: >-
+            The address requirements that must be fulfilled before a user may
+            purchase a subscription.
+        device:
+          $ref: '#/components/schemas/PlansPlanRequirementsDevice'
+          description: >-
+            The device requirements that must be fulfilled before a user may
+            purchase a subscription.
+        user.birthday:
+          $ref: '#/components/schemas/PlansPlanRequirementsUserBirthday'
+          description: >-
+            The user birthday requirements that must be fulfilled before a user
+            may purchase a subscription.
+        user.fullName:
+          $ref: '#/components/schemas/PlansPlanRequirementsUserFullName'
+          description: >-
+            The user full name requirements that must be fulfilled before a user
+            may purchase a subscription.
+      required:
+        - address
+        - device
+        - user.birthday
+        - user.fullName
+    PlansPlanRequirementsAddress:
+      type: string
+      enum:
+        - none
+        - present
+        - verified
+    PlansPlanRequirementsDevice:
+      type: string
+      enum:
+        - none
+        - present
+        - verified
+    PlansPlanRequirementsUserBirthday:
+      type: string
+      enum:
+        - none
+        - present
+        - verified
+    PlansPlanRequirementsUserFullName:
+      type: string
+      enum:
+        - none
+        - present
+        - verified
+    PlansPrice:
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: >-
+            The price amount in the currency's minor unit, e.g. "cents" for many
+            currencies. `>= 0`
+        currency:
+          type: string
+          description: Three-letter ISO 4217 currency code. Must be a supported currency.
+      required:
+        - amount
+        - currency
+    PlansDataUnit:
+      type: string
+      enum:
+        - byte
+    PlansCoverage:
+      type: object
+      properties:
+        object:
+          $ref: '#/components/schemas/PlansCoverageObject'
+          description: Type of object is always `coverage`.
+        id:
+          type: string
+          description: Unique identifier for the coverage configuration.
+        countries:
+          type: array
+          items:
+            type: string
+          description: >-
+            List of countries in ISO 3166-1 alpha-2 format covered by this
+            coverage configuration.
+        name:
+          type: string
+          description: >-
+            A human-readable identifier of the coverage configuration, might not
+            be unique.
+      required:
+        - object
+        - id
+        - countries
+        - name
+    PlansCoverageObject:
+      type: string
+      enum:
+        - coverage
+    ProjectsProjectId:
+      type: string
+    ProjectsOrganizationId:
+      type: string
+    ProjectsProject:
+      type: object
+      properties:
+        object:
+          type: string
+          description: Type of object is always `project`.
+        id:
+          $ref: '#/components/schemas/ProjectsProjectId'
+          description: Globally unique identifier for the project.
+        image:
+          type: string
+          description: Small-resolution project icon with an aspect ratio of 1:1.
+        legal:
+          $ref: '#/components/schemas/ProjectsLegalAddress'
+          description: The legal address for the company that manages the project.
+        locales:
+          type: array
+          items:
+            type: string
+          description: >-
+            List of supported locales represented as IETF language tags, ordered
+            by preference.
+        name:
+          type: string
+          description: A human-readable name for the project.
+        organization:
+          $ref: '#/components/schemas/ProjectsOrganization'
+        payments:
+          $ref: '#/components/schemas/ProjectsPayments'
+        subscriptionOwner:
+          $ref: '#/components/schemas/ProjectsSubscriptionOwner'
+          description: >-
+            Indicates which entity will be registered as the owner of the
+            subscription with the providers. When company is selected the legal
+            address associated with the project will be used for the
+            registration.
+        support:
+          $ref: '#/components/schemas/ProjectsSupport'
+          description: Contact details for consumer support requests regarding the project.
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the project was created.
+      required:
+        - object
+        - id
+        - locales
+        - name
+        - organization
+        - payments
+        - subscriptionOwner
+        - createdAt
+    ProjectsLegalAddress:
+      type: object
+      description: The legal address for the company that manages the project.
+      properties:
+        name:
+          type: string
+          description: The company's legal name.
+        city:
+          type: string
+          description: The city/municipality of the company's legal address.
+        country:
+          type: string
+          description: The ISO 3166-1 alpha-2 country code for the company's legal address.
+        line1:
+          type: string
+          description: >-
+            The first line of the company's legal address, e.g. street and house
+            number.
+        line2:
+          type: string
+          description: The second line of the given street address, e.g. Apartment number.
+        postalCode:
+          type: string
+          description: The postal code of the given street address.
+        state:
+          type: string
+          description: The state/province/region of the given street address.
+      required:
+        - name
+        - city
+        - country
+        - line1
+        - line2
+        - postalCode
+        - state
+    ProjectsOrganization:
+      type: object
+      properties:
+        object:
+          type: string
+          description: Type of object is always `organization`.
+        id:
+          $ref: '#/components/schemas/ProjectsOrganizationId'
+          description: Unique identifier for the organization.
+        name:
+          type: string
+          description: Name for the organization.
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the organization was created.
+      required:
+        - object
+        - id
+        - name
+        - createdAt
+    ProjectsPayments:
+      type: object
+      description: Configuration parameters for the project use of payments.
+      properties:
+        currency:
+          type: string
+          description: >-
+            Three-letter ISO 4217 currency code representing the currency of the
+            project. Must be a supported currency.
+        mode:
+          $ref: '#/components/schemas/ProjectsPaymentsMode'
+          description: The mode in which the payments operate.
+      required:
+        - currency
+        - mode
+    ProjectsPaymentsMode:
+      type: string
+      enum:
+        - live
+        - test
+    ProjectsSubscriptionOwner:
+      type: string
+      enum:
+        - user
+        - company
+    ProjectsSupport:
+      type: object
+      properties:
+        email:
+          type: string
+          description: >-
+            A publicly available email address for consumer support requests
+            regarding the project.
+        phoneNumber:
+          type: string
+          description: >-
+            A publicly available phone number in E.164 format for consumer
+            support requests regarding the project.
+    SimsSimId:
+      type: string
+    SimsSimTypes:
+      type: string
+      enum:
+        - eSIM
+        - pSIM
+    SimsSim:
+      type: object
+      properties:
+        object:
+          $ref: '#/components/schemas/SimsSimObject'
+        id:
+          type: string
+          description: Unique identifier for the SIM.
+        iccid:
+          type: string
+          description: >-
+            The ICCID (integrated circuit card identifier) associated with the
+            SIM.
+        provider:
+          type: string
+          description: The ID of the network provider of the SIM.
+        status:
+          $ref: '#/components/schemas/SimsSimStatus'
+          description: The status of the SIM.
+        type:
+          $ref: '#/components/schemas/SimsSimTypes'
+          description: The type of the SIM.
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the SIM was created.
+      required:
+        - object
+        - id
+        - iccid
+        - provider
+        - status
+        - type
+        - createdAt
+    SimsSimObject:
+      type: string
+      enum:
+        - sim
+    SimsSimStatus:
+      type: string
+      enum:
+        - inactive
+        - active
+        - retired
+    SubscriptionsSubscriptionId:
+      type: string
+    SubscriptionsSubscriptionStatus:
+      type: string
+      enum:
+        - pending
+        - active
+        - ended
+    SubscriptionsSubscription:
+      type: object
+      properties:
+        object:
+          $ref: '#/components/schemas/SubscriptionsSubscriptionObject'
+          description: Type of object is always `subscription`.
+        id:
+          type: string
+          description: Unique identifier for the subscription.
+        currentPeriod:
+          $ref: '#/components/schemas/SubscriptionsCurrentPeriod'
+        phoneNumber:
+          type: string
+          description: >-
+            The phone number attached to the SIM in E.164 format. Only available
+            for voice plans.
+        plan:
+          $ref: '#/components/schemas/PlansPlan'
+        porting:
+          type: string
+          description: Unique identifier for the porting.
+        sim:
+          $ref: '#/components/schemas/SimsSim'
+        status:
+          $ref: '#/components/schemas/SubscriptionsSubscriptionStatus'
+          description: The current status of the subscription.
+        user:
+          $ref: '#/components/schemas/UsersUser'
+        activatedAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was activated.
+        canceledAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was canceled.
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was created.
+        endedAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was ended.
+        firstUsageAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was first used.
+      required:
+        - object
+        - id
+        - phoneNumber
+        - plan
+        - status
+        - user
+        - activatedAt
+        - canceledAt
+        - createdAt
+        - endedAt
+        - firstUsageAt
+    SubscriptionsSubscriptionList:
+      type: object
+      properties:
+        object:
+          type: string
+          description: Type of object is always `list`.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionsSubscriptionItem'
+          description: List of objects of type `subscription`.
+        moreItemsAfter:
+          type: string
+          description: >-
+            A unique identifier to be used as `after` pagination parameter if
+            more items are available sorted after the current batch of items.
+        moreItemsBefore:
+          type: string
+          description: >-
+            A unique identifier to be used as `before` pagination parameter if
+            more items are available sorted before the current batch of items.
+      required:
+        - object
+        - items
+    SubscriptionsSubscriptionItem:
+      type: object
+      properties:
+        object:
+          type: string
+          description: Type of object is always `subscription`.
+        id:
+          $ref: '#/components/schemas/SubscriptionsSubscriptionId'
+          description: Unique identifier for the subscription.
+        currentPeriod:
+          $ref: '#/components/schemas/SubscriptionsCurrentPeriod'
+        phoneNumber:
+          type: string
+          description: >-
+            The phone number attached to the SIM in E.164 format. Only available
+            for voice plans.
+        plan:
+          $ref: '#/components/schemas/PlansPlan'
+        porting:
+          type: string
+          description: Unique identifier for the porting.
+        sim:
+          $ref: '#/components/schemas/SimsSim'
+        status:
+          $ref: '#/components/schemas/SubscriptionsSubscriptionStatus'
+          description: The current status of the subscription.
+        user:
+          $ref: '#/components/schemas/UsersUser'
+        activatedAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was activated.
+        canceledAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was canceled.
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was created.
+        endedAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was ended.
+        firstUsageAt:
+          type: string
+          format: date-time
+          description: Time when the subscription was first used.
+      required:
+        - object
+        - id
+        - phoneNumber
+        - plan
+        - sim
+        - status
+        - user
+        - activatedAt
+        - canceledAt
+        - createdAt
+        - endedAt
+        - firstUsageAt
+    SubscriptionsCurrentPeriod:
+      type: object
+      properties:
+        number:
+          type: integer
+          description: Sequence number of the subscription period.
+        start:
+          type: string
+          format: date-time
+          description: Beginning of the current subscription period.
+        end:
+          type: string
+          format: date-time
+          description: End of the current subscription period.
+      required:
+        - number
+        - start
+        - end
+    SubscriptionsSubscriptionObject:
+      type: string
+      enum:
+        - subscription
+    UsersUserObject:
+      type: string
+      enum:
+        - user
+    UsersUser:
+      type: object
+      properties:
+        object:
+          $ref: '#/components/schemas/UsersUserObject'
+          description: Type of object is always `user`.
+        id:
+          type: string
+          description: Unique identifier for the user.
+        birthday:
+          type: string
+          description: The birthday of the user.
+        email:
+          type: string
+          description: The primary verified email address of the user.
+        emailVerified:
+          type: boolean
+          description: Whether the user's primary email address is verified or not.
+        fullName:
+          type: string
+          description: >-
+            The user's full name. Some plans require the user name to be present
+            when creating a subscription. Check the plan requirements for that.
+        preferredLocale:
+          type: string
+          description: >-
+            The user's locale preference represented as an [IETF language
+            tag](https://en.wikipedia.org/wiki/IETF_language_tag). It defaults
+            to the project's preferred locale.
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the user was created.
+      required:
+        - object
+        - id
+        - birthday
+        - email
+        - emailVerified
+        - fullName
+        - preferredLocale
+        - createdAt
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+servers:
+  - url: https://api.gigs.com
