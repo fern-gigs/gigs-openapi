@@ -11,7 +11,7 @@ jobs:
       # Go to https://{workspace}.stoplight.io/settings/{project}/automation
       PROJECT_TOKEN: ${STOPLIGHT_CI_TOKEN} 
       # The Project URL without a trailing slash.
-      PROJECT_URL: 'https://fern-api.stoplight.io/gigs-demo-stoplight'
+      PROJECT_URL: 'https://fern-api.stoplight.io/docs/gigs-demo-stoplight'
       
     steps:
       # Check out the repository
