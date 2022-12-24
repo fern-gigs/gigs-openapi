@@ -6,7 +6,7 @@ info:
     countries.
 
     support@gigs.com
-  version: 0.0.24
+  version: 0.0.25
 paths:
   /deviceModels/{id}:
     get:
@@ -885,9 +885,11 @@ components:
         brand:
           type: string
           description: The brand of the device model.
+          example: Apple
         name:
           type: string
           description: The device model's name.
+          example: iPhone 12 Pro
         simTypes:
           type: array
           items:
@@ -938,6 +940,7 @@ components:
           description: >-
             The data allowance included in this plan. A value of `-1` indicates
             unlimited data.
+          example: 10000000000
         dataUnit:
           $ref: '#/components/schemas/DataUnit'
           description: The unit of the data value is always `byte`.
@@ -947,14 +950,17 @@ components:
         image:
           type: string
           description: The plan's image, meant to be displayable to the users.
+          example: https://i.gigscdn.com/pr/nTZpgaEj5dTQ2Jo/original.png
         name:
           type: string
           description: The plan's name, meant to be displayable to the users.
+          example: Gigs Global
         price:
           $ref: '#/components/schemas/Price'
         provider:
           type: string
           description: The ID of the network provider supported by this plan.
+          example: p5
         requirements:
           $ref: '#/components/schemas/PlanRequirements'
         simTypes:
@@ -967,6 +973,7 @@ components:
           description: >-
             The SMS allowance included in this plan. A value of `-1` indicates
             unlimited SMS.
+          example: 100
         smsUnit:
           $ref: '#/components/schemas/PlanSmsUnit'
           description: The unit of the sms value is always `message`.
@@ -984,6 +991,7 @@ components:
           description: >-
             The voice call allowance in seconds included in this plan. A value
             of `-1` indicates unlimited voice calls.
+          example: 30000
         voiceUnit:
           $ref: '#/components/schemas/VoiceUnit'
           description: The unit of the voice value is always `second`.
@@ -991,6 +999,7 @@ components:
           type: string
           format: date-time
           description: Time when the plan was created.
+          example: '2021-01-21T19:38:34Z'
       required:
         - object
         - id
@@ -1204,6 +1213,7 @@ components:
         object:
           type: string
           description: Type of object is always `project`.
+          example: project
         id:
           $ref: '#/components/schemas/ProjectId'
           description: Globally unique identifier for the project.
@@ -1223,6 +1233,7 @@ components:
         name:
           type: string
           description: A human-readable name for the project.
+          example: Gigs Connect
         organization:
           $ref: '#/components/schemas/Organization'
         payments:
@@ -1241,6 +1252,7 @@ components:
           type: string
           format: date-time
           description: Time when the project was created.
+          example: '2021-01-21T19:32:13Z'
       required:
         - object
         - id
@@ -1412,6 +1424,7 @@ components:
         id:
           type: string
           description: Unique identifier for the subscription.
+          example: sub_0SNlurA049MEWV2gSfSxi00xlPIi
         currentPeriod:
           $ref: '#/components/schemas/CurrentPeriod'
         phoneNumber:
@@ -1419,6 +1432,7 @@ components:
           description: >-
             The phone number attached to the SIM in E.164 format. Only available
             for voice plans.
+          example: '+25411865216434'
         plan:
           $ref: '#/components/schemas/Plan'
         porting:
@@ -1435,22 +1449,27 @@ components:
           type: string
           format: date-time
           description: Time when the subscription was activated.
+          example: '2021-01-21T19:38:34Z'
         canceledAt:
           type: string
           format: date-time
           description: Time when the subscription was canceled.
+          example: '2021-01-29T13:22:51Z'
         createdAt:
           type: string
           format: date-time
           description: Time when the subscription was created.
+          example: '2021-01-21T19:32:13Z'
         endedAt:
           type: string
           format: date-time
           description: Time when the subscription was ended.
+          example: '2021-02-20T19:38:34Z'
         firstUsageAt:
           type: string
           format: date-time
           description: Time when the subscription was first used.
+          example: '2021-01-21T19:38:34Z'
       required:
         - object
         - id
@@ -1469,6 +1488,7 @@ components:
         object:
           type: string
           description: Type of object is always `list`.
+          example: list
         items:
           type: array
           items:
@@ -1583,30 +1603,37 @@ components:
         id:
           type: string
           description: Unique identifier for the user.
+          example: usr_0SNlurA049MEWV4OpCwsNyC9Kn2d
         birthday:
           type: string
           description: The birthday of the user.
+          example: '2017-07-21'
         email:
           type: string
           description: The primary verified email address of the user.
+          example: john.doe@example.com
         emailVerified:
           type: boolean
           description: Whether the user's primary email address is verified or not.
+          example: true
         fullName:
           type: string
           description: >-
             The user's full name. Some plans require the user name to be present
             when creating a subscription. Check the plan requirements for that.
+          example: John Doe
         preferredLocale:
           type: string
           description: >-
             The user's locale preference represented as an [IETF language
             tag](https://en.wikipedia.org/wiki/IETF_language_tag). It defaults
             to the project's preferred locale.
+          example: en-US
         createdAt:
           type: string
           format: date-time
           description: Time when the user was created.
+          example: '2021-01-21T19:38:34Z'
       required:
         - object
         - id
