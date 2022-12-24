@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: api
-  version: 0.0.10
+  version: 0.0.11
 paths:
   /deviceModels/{id}:
     get:
@@ -67,6 +67,7 @@ paths:
                     hint: Parameter iccid must match /^([0-9]{19}F?|[0-9]{20})$/i
                     message: Invalid ICCID format.
                     type: invalid
+      summary: Retrieve a device model
       security: &ref_0
         - BearerAuth: []
   /projects/{project}/plans/:
@@ -193,6 +194,7 @@ paths:
                         createdAt: '2021-01-21T19:38:34Z'
                     moreItemsAfter: null
                     moreItemsBefore: null
+      summary: Returns a list of plans.
       security: *ref_0
   /projects/{project}/plans/{id}/archive:
     get:
@@ -280,6 +282,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonsDoesNotExistBody'
+      summary: Archive a plan
       security: *ref_0
   /projects/{project}:
     get:
@@ -341,6 +344,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonsDoesNotExistBody'
+      summary: Retrieve a project
       security: *ref_0
   /projects/{project}/subscriptions:
     post:
@@ -445,6 +449,7 @@ paths:
                     createdAt: '2021-01-21T19:32:13Z'
                     endedAt: '2021-02-20T19:38:34Z'
                     firstUsageAt: '2021-01-21T19:38:34Z'
+      summary: Create a subscription
       security: *ref_0
       requestBody:
         required: true
@@ -655,6 +660,7 @@ paths:
                         firstUsageAt: '2021-01-21T19:38:34Z'
                     moreItemsAfter: null
                     moreItemsBefore: null
+      summary: List all subscriptions
       security: *ref_0
   /projects/{project}/users:
     post:
@@ -696,6 +702,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonsInvalidICCIDBody'
+      summary: Create a user
       security: *ref_0
       requestBody:
         required: true
