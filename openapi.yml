@@ -6,7 +6,7 @@ info:
     countries.
 
     support@gigs.com
-  version: 0.0.23
+  version: 0.0.24
 paths:
   /deviceModels/{id}:
     get:
@@ -473,6 +473,7 @@ paths:
                   description: >-
                     The unique identifier for the existing plan to be used for
                     the subscription.
+                  example: pln_0SNlurA049MEWV3V0q7gjQbM4EVo
                 sim:
                   type: string
                   description: >-
@@ -490,6 +491,7 @@ paths:
                   description: >-
                     The unique identifier for the existing user to which the
                     subscription will be assigned.
+                  example: usr_0SNlurA049MEWV4OpCwsNyC9Kn2d
                 porting:
                   type: string
                   description: >-
@@ -727,15 +729,18 @@ paths:
                 birthday:
                   type: string
                   description: The birthday of the user.
+                  example: '2017-07-21'
                 email:
                   type: string
                   description: The primary verified email address of the user.
+                  example: john.doe@example.com
                 fullName:
                   type: string
                   description: >-
                     The user's full name. Some plans require the user name to be
                     present when creating a subscription. Check the plan
                     requirements for that.
+                  example: John Doe
                 preferredLocale:
                   type: string
                   description: >-
@@ -743,6 +748,7 @@ paths:
                     language
                     tag](https://en.wikipedia.org/wiki/IETF_language_tag). It
                     defaults to the project's preferred locale.
+                  example: en-US
               required:
                 - object
                 - birthday
