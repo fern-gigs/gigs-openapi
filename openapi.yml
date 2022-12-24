@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: gigs-core-api
+  title: Gigs Core API
   description: >
     API to manage voice & data plans for smartphones, wearables and IoT in 200+
     countries.
