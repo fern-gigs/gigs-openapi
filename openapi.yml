@@ -1,7 +1,12 @@
 openapi: 3.0.1
 info:
-  title: api
-  version: 0.0.19
+  title: gigs-core-api
+  description: >
+    API to manage voice & data plans for smartphones, wearables and IoT in 200+
+    countries.
+
+    support@gigs.com
+  version: 0.0.22
 paths:
   /deviceModels/{id}:
     get:
@@ -12,6 +17,7 @@ paths:
       parameters:
         - name: id
           in: path
+          description: The unique identifier for the device model.
           required: true
           schema:
             $ref: '#/components/schemas/DeviceId'
@@ -72,13 +78,16 @@ paths:
         - BearerAuth: []
   /projects/{project}/plans/:
     get:
+      description: Returns a list of plans.
       operationId: PlanService.list
       tags:
         - Plans
       parameters:
         - name: project
           in: path
-          description: The unique identifier for the project.
+          description: >-
+            The unique identifier for the
+            [project](https://developers.gigs.com/docs/api/b3A6MzMwODcxMzI-retrieve-a-project).
           required: true
           schema:
             type: string
@@ -105,9 +114,10 @@ paths:
             type: string
         - name: limit
           in: query
-          description: >-
-            The limit of items to be returned in the list, between 0 and 200.
-            `>= 0` `<= 200`. Default is `10`.
+          description: |
+            The limit of items to be returned in the list, between 0 and 200. 
+            `>= 0` `<= 200`
+            Default: `10`
           required: false
           schema:
             type: integer
@@ -194,7 +204,7 @@ paths:
                         createdAt: '2021-01-21T19:38:34Z'
                     moreItemsAfter: null
                     moreItemsBefore: null
-      summary: Returns a list of plans.
+      summary: List all plans
       security: *ref_0
   /projects/{project}/plans/{id}/archive:
     get:
@@ -764,7 +774,7 @@ components:
             $ref: '#/components/schemas/PropertyErrorDetail'
           description: >-
             Optional array containing specific information for the current
-            error.Show all...
+            error.
         documentation:
           type: array
           items:
@@ -861,7 +871,7 @@ components:
       type: object
       properties:
         object:
-          type: string
+          $ref: '#/components/schemas/DeviceModelObject'
           description: Type of object is always `deviceModel`.
         id:
           $ref: '#/components/schemas/DeviceId'
@@ -900,6 +910,10 @@ components:
         - tablet
         - wearable
         - other
+    DeviceModelObject:
+      type: string
+      enum:
+        - deviceModel
     PlanId:
       type: string
     Plan:
@@ -1129,9 +1143,11 @@ components:
       properties:
         amount:
           type: integer
-          description: >-
+          description: >
             The price amount in the currency's minor unit, e.g. "cents" for many
-            currencies. `>= 0`
+            currencies. 
+
+            `>= 0`
         currency:
           type: string
           description: Three-letter ISO 4217 currency code. Must be a supported currency.
