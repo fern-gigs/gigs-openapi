@@ -1,47 +1,17 @@
 name: Push to Stoplight
 
 on: [push]
-  
+
 jobs:
-  build:
-    name: Push to Stoplight
-    runs-on: ubuntu-latest
-    env: 
-      # Get the CI token from project settings on your Stoplight workspace
-      # Go to https://{workspace}.stoplight.io/settings/{project}/automation
-      PROJECT_TOKEN: ${STOPLIGHT_CI_TOKEN} 
-      # The Project URL without a trailing slash.
-      PROJECT_URL: 'https://fern-api.stoplight.io/docs/gigs-demo-stoplight'
-      
-    steps:
-      # Check out the repository
-      - name: Check out repository code
-        uses: actions/checkout@v3
-
-      - name: Get branch name (merge)
-        if: github.event_name != 'pull_request'
-        shell: bash
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
-
-      - name: Get branch name (pull request)
-        if: github.event_name == 'pull_request'
-        shell: bash
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-
-      - name: Push files to Stoplight
-        run: |
-          npx @stoplight/cli@5 push --ci-token ${{env.PROJECT_TOKEN}} --directory ${{ github.workspace }} --branch ${{ env.BRANCH_NAME }}
-
-      - name: Stoplight PR comment
-        if: github.event_name == 'pull_request'
-        uses: NejcZdovc/comment-pr@v1
-        with:
-          message: 📚 🔍 API Docs preview available at ${{env.PROJECT_URL}}/branches/${{ env.BRANCH_NAME }}
-          identifier: "STOPLIGHT_PREVIEW"
-          
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  push-to-stoplight:
+      name: Push to Stoplight
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - name: Push to Stoplight
+          run: |
+            npx @stoplight/cli@6 push --ci-token ${STOPLIGHT_CI_TOKEN} --url https://fern-api.stoplight.io/
+          env: 
+            # Get the CI token from project settings on your Stoplight workspace
+            # Go to https://{workspace}.stoplight.io/settings/{project}/automation
+            STOPLIGHT_CI_TOKEN: ${{ secrets.STOPLIGHT_CI_TOKEN }}
