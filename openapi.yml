@@ -6,7 +6,7 @@ info:
     countries.
 
     support@gigs.com
-  version: 0.0.26
+  version: 0.0.27
 paths:
   /deviceModels/{id}:
     get:
@@ -238,7 +238,9 @@ paths:
       parameters:
         - name: project
           in: path
-          description: The unique identifier for the project.
+          description: >-
+            The unique identifier for the
+            [project](https://developers.gigs.com/docs/api/b3A6MzMwODcxMzI-retrieve-a-project).
           required: true
           schema:
             type: string
@@ -326,7 +328,9 @@ paths:
       parameters:
         - name: project
           in: path
-          description: The unique identifier for the project.
+          description: >-
+            The unique identifier for the
+            [project](https://developers.gigs.com/docs/api/b3A6MzMwODcxMzI-retrieve-a-project)
           required: true
           schema:
             $ref: '#/components/schemas/ProjectId'
@@ -388,7 +392,9 @@ paths:
       parameters:
         - name: project
           in: path
-          description: The unique identifier for the project.
+          description: >-
+            The unique identifier for the
+            [project](https://developers.gigs.com/docs/api/b3A6MzMwODcxMzI-retrieve-a-project)
           required: true
           schema:
             $ref: '#/components/schemas/ProjectId'
@@ -540,7 +546,9 @@ paths:
       parameters:
         - name: project
           in: path
-          description: The unique identifier for the project.
+          description: >-
+            The unique identifier for the
+            [project](https://developers.gigs.com/docs/api/b3A6MzMwODcxMzI-retrieve-a-project)
           required: true
           schema:
             $ref: '#/components/schemas/ProjectId'
@@ -704,7 +712,9 @@ paths:
       parameters:
         - name: project
           in: path
-          description: The unique identifier for the project.
+          description: >-
+            The unique identifier for the
+            [project](https://developers.gigs.com/docs/api/b3A6MzMwODcxMzI-retrieve-a-project)
           required: true
           schema:
             $ref: '#/components/schemas/ProjectId'
@@ -1203,6 +1213,7 @@ components:
         id:
           type: string
           description: Unique identifier for the coverage configuration.
+          example: de
         countries:
           type: array
           items:
@@ -1215,6 +1226,7 @@ components:
           description: >-
             A human-readable identifier of the coverage configuration, might not
             be unique.
+          example: Europe
       required:
         - object
         - id
