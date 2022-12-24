@@ -1,20 +1,20 @@
 openapi: 3.0.1
 info:
   title: api
-  version: 0.0.15
+  version: 0.0.16
 paths:
   /deviceModels/{id}:
     get:
       description: Retrieves the details of an existing device model.
       operationId: DeviceService.retrieve
       tags:
-        - DeviceService
+        - Devices
       parameters:
         - name: id
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/DevicesDeviceId'
+            $ref: '#/components/schemas/DeviceId'
           examples:
             Example1:
               value: dmd_0SNlurA04OUskUGfGAn3Rh
@@ -28,7 +28,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DevicesDevice'
+                $ref: '#/components/schemas/Device'
               examples:
                 Example1:
                   value:
@@ -44,7 +44,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommonsDoesNotExistBody'
+                $ref: '#/components/schemas/DoesNotExistBody'
               examples:
                 Example1:
                   value:
@@ -74,7 +74,7 @@ paths:
     get:
       operationId: PlanService.list
       tags:
-        - PlanService
+        - Plans
       parameters:
         - name: project
           in: path
@@ -116,13 +116,13 @@ paths:
           description: The unique identifier for the plan to be filtered by.
           required: false
           schema:
-            $ref: '#/components/schemas/PlansPlanId'
+            $ref: '#/components/schemas/PlanId'
         - name: sim
           in: query
           description: The unique identifier for the sim to be filtered by.
           required: false
           schema:
-            $ref: '#/components/schemas/SimsSimId'
+            $ref: '#/components/schemas/SimId'
         - name: status
           in: query
           description: >-
@@ -130,7 +130,7 @@ paths:
             by default.
           required: false
           schema:
-            $ref: '#/components/schemas/PlansPlanStatus'
+            $ref: '#/components/schemas/PlanStatus'
         - name: user
           in: query
           description: The unique identifier for the user to be filtered by.
@@ -143,7 +143,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlansPlanList'
+                $ref: '#/components/schemas/PlanList'
               examples:
                 Example1:
                   value:
@@ -203,7 +203,7 @@ paths:
         to create new subscriptions.
       operationId: PlanService.archive
       tags:
-        - PlanService
+        - Plans
       parameters:
         - name: project
           in: path
@@ -219,7 +219,7 @@ paths:
           description: The unique identifier for the plan.
           required: true
           schema:
-            $ref: '#/components/schemas/PlansPlanId'
+            $ref: '#/components/schemas/PlanId'
           examples:
             Example1:
               value: pln_0SNlurA049MEWV3V0q7gjQbM4EVo
@@ -229,7 +229,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlansPlan'
+                $ref: '#/components/schemas/Plan'
               examples:
                 Example1:
                   value:
@@ -281,7 +281,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommonsDoesNotExistBody'
+                $ref: '#/components/schemas/DoesNotExistBody'
       summary: Archive a plan
       security: *ref_0
   /projects/{project}:
@@ -291,14 +291,14 @@ paths:
         client.
       operationId: ProjectService.retrieve
       tags:
-        - ProjectService
+        - Projects
       parameters:
         - name: project
           in: path
           description: The unique identifier for the project.
           required: true
           schema:
-            $ref: '#/components/schemas/ProjectsProjectId'
+            $ref: '#/components/schemas/ProjectId'
           examples:
             Example1:
               value: gigs
@@ -308,7 +308,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectsProject'
+                $ref: '#/components/schemas/Project'
               examples:
                 Example1:
                   value:
@@ -343,7 +343,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommonsDoesNotExistBody'
+                $ref: '#/components/schemas/DoesNotExistBody'
       summary: Retrieve a project
       security: *ref_0
   /projects/{project}/subscriptions:
@@ -353,14 +353,14 @@ paths:
         project.
       operationId: SubscriptionService.create
       tags:
-        - SubscriptionService
+        - Subscriptions
       parameters:
         - name: project
           in: path
           description: The unique identifier for the project.
           required: true
           schema:
-            $ref: '#/components/schemas/ProjectsProjectId'
+            $ref: '#/components/schemas/ProjectId'
           examples:
             Example1:
               value: gigs
@@ -370,7 +370,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubscriptionsSubscription'
+                $ref: '#/components/schemas/Subscription'
               examples:
                 Example1:
                   value:
@@ -503,14 +503,14 @@ paths:
         first.
       operationId: SubscriptionService.listAll
       tags:
-        - SubscriptionService
+        - Subscriptions
       parameters:
         - name: project
           in: path
           description: The unique identifier for the project.
           required: true
           schema:
-            $ref: '#/components/schemas/ProjectsProjectId'
+            $ref: '#/components/schemas/ProjectId'
           examples:
             Example1:
               value: gigs
@@ -545,13 +545,13 @@ paths:
           description: The unique identifier for the plan to be filtered by.
           required: false
           schema:
-            $ref: '#/components/schemas/PlansPlanId'
+            $ref: '#/components/schemas/PlanId'
         - name: sim
           in: query
           description: The unique identifier for the sim to be filtered by.
           required: false
           schema:
-            $ref: '#/components/schemas/SimsSimId'
+            $ref: '#/components/schemas/SimId'
         - name: status
           in: query
           description: >-
@@ -560,7 +560,7 @@ paths:
             Default is `pending` `active`.
           required: false
           schema:
-            $ref: '#/components/schemas/SubscriptionsSubscriptionStatus'
+            $ref: '#/components/schemas/SubscriptionStatus'
         - name: user
           in: query
           description: The unique identifier for the user to be filtered by.
@@ -576,7 +576,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubscriptionsSubscriptionList'
+                $ref: '#/components/schemas/SubscriptionList'
               examples:
                 Example1:
                   value:
@@ -667,14 +667,14 @@ paths:
       description: Creates a new user with the given parameters.
       operationId: UserService.create
       tags:
-        - UserService
+        - Users
       parameters:
         - name: project
           in: path
           description: The unique identifier for the project.
           required: true
           schema:
-            $ref: '#/components/schemas/ProjectsProjectId'
+            $ref: '#/components/schemas/ProjectId'
           examples:
             Example1:
               value: gigs
@@ -684,7 +684,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsersUser'
+                $ref: '#/components/schemas/User'
               examples:
                 Example1:
                   value:
@@ -701,7 +701,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommonsInvalidICCIDBody'
+                $ref: '#/components/schemas/InvalidICCIDBody'
       summary: Create a user
       security: *ref_0
       requestBody:
@@ -712,7 +712,7 @@ paths:
               type: object
               properties:
                 object:
-                  $ref: '#/components/schemas/UsersUserObject'
+                  $ref: '#/components/schemas/UserObject'
                   description: Type of object is always `user`.
                 birthday:
                   type: string
@@ -749,7 +749,7 @@ paths:
                   preferredLocale: en-US
 components:
   schemas:
-    CommonsDoesNotExistBody:
+    DoesNotExistBody:
       type: object
       properties:
         object:
@@ -761,7 +761,7 @@ components:
         details:
           type: array
           items:
-            $ref: '#/components/schemas/CommonsPropertyErrorDetail'
+            $ref: '#/components/schemas/PropertyErrorDetail'
           description: >-
             Optional array containing specific information for the current
             error.Show all...
@@ -785,11 +785,11 @@ components:
         - object
         - message
         - type
-    CommonsInvalidICCIDBody:
+    InvalidICCIDBody:
       type: object
       properties:
         object:
-          $ref: '#/components/schemas/CommonsInvalidICCIDBodyObject'
+          $ref: '#/components/schemas/InvalidICCIDBodyObject'
           description: Type of object is always `error`.
         code:
           type: string
@@ -797,7 +797,7 @@ components:
         details:
           type: array
           items:
-            $ref: '#/components/schemas/CommonsPropertyErrorDetail'
+            $ref: '#/components/schemas/PropertyErrorDetail'
           description: >-
             Optional array containing specific information for the current
             error.
@@ -824,11 +824,11 @@ components:
         - object
         - message
         - type
-    CommonsPropertyErrorDetail:
+    PropertyErrorDetail:
       type: object
       properties:
         object:
-          $ref: '#/components/schemas/CommonsPropertyErrorDetailObject'
+          $ref: '#/components/schemas/PropertyErrorDetailObject'
           description: Type of object is always `propertyErrorDetail`.
         code:
           type: string
@@ -847,24 +847,24 @@ components:
         - code
         - message
         - property
-    CommonsPropertyErrorDetailObject:
+    PropertyErrorDetailObject:
       type: string
       enum:
         - propertyErrorDetail
-    CommonsInvalidICCIDBodyObject:
+    InvalidICCIDBodyObject:
       type: string
       enum:
         - error
-    DevicesDeviceId:
+    DeviceId:
       type: string
-    DevicesDevice:
+    Device:
       type: object
       properties:
         object:
           type: string
           description: Type of object is always `deviceModel`.
         id:
-          $ref: '#/components/schemas/DevicesDeviceId'
+          $ref: '#/components/schemas/DeviceId'
           description: Unique identifier for the deviceModel.
         brand:
           type: string
@@ -875,10 +875,10 @@ components:
         simTypes:
           type: array
           items:
-            $ref: '#/components/schemas/SimsSimTypes'
+            $ref: '#/components/schemas/SimTypes'
           description: List of SIM types supported by this device model.
         type:
-          $ref: '#/components/schemas/DevicesDeviceModelType'
+          $ref: '#/components/schemas/DeviceModelType'
           description: The type of the device model.
       required:
         - object
@@ -887,7 +887,7 @@ components:
         - name
         - simTypes
         - type
-    DevicesDeviceModelType:
+    DeviceModelType:
       type: string
       enum:
         - car
@@ -900,26 +900,26 @@ components:
         - tablet
         - wearable
         - other
-    PlansPlanId:
+    PlanId:
       type: string
-    PlansPlan:
+    Plan:
       type: object
       properties:
         object:
-          $ref: '#/components/schemas/PlansPlanObject'
+          $ref: '#/components/schemas/PlanObject'
           description: Type of object is always `plan`.
         id:
-          $ref: '#/components/schemas/PlansPlanId'
+          $ref: '#/components/schemas/PlanId'
           description: The unique identifier for the plan.
         coverage:
-          $ref: '#/components/schemas/PlansCoverage'
+          $ref: '#/components/schemas/Coverage'
         data:
           type: integer
           description: >-
             The data allowance included in this plan. A value of `-1` indicates
             unlimited data.
         dataUnit:
-          $ref: '#/components/schemas/PlansDataUnit'
+          $ref: '#/components/schemas/DataUnit'
           description: The unit of the data value is always `byte`.
         description:
           type: string
@@ -931,16 +931,16 @@ components:
           type: string
           description: The plan's name, meant to be displayable to the users.
         price:
-          $ref: '#/components/schemas/PlansPrice'
+          $ref: '#/components/schemas/Price'
         provider:
           type: string
           description: The ID of the network provider supported by this plan.
         requirements:
-          $ref: '#/components/schemas/PlansPlanRequirements'
+          $ref: '#/components/schemas/PlanRequirements'
         simTypes:
           type: array
           items:
-            $ref: '#/components/schemas/SimsSimTypes'
+            $ref: '#/components/schemas/SimTypes'
           description: List of SIM types supported by this plan.
         sms:
           type: integer
@@ -948,24 +948,24 @@ components:
             The SMS allowance included in this plan. A value of `-1` indicates
             unlimited SMS.
         smsUnit:
-          $ref: '#/components/schemas/PlansPlanSmsUnit'
+          $ref: '#/components/schemas/PlanSmsUnit'
           description: The unit of the sms value is always `message`.
         status:
-          $ref: '#/components/schemas/PlansPlanStatus'
+          $ref: '#/components/schemas/PlanStatus'
         tags:
           type: array
           items:
             type: string
           description: List of tags describing this plan.
         validity:
-          $ref: '#/components/schemas/PlansValidity'
+          $ref: '#/components/schemas/Validity'
         voice:
           type: integer
           description: >-
             The voice call allowance in seconds included in this plan. A value
             of `-1` indicates unlimited voice calls.
         voiceUnit:
-          $ref: '#/components/schemas/PlansVoiceUnit'
+          $ref: '#/components/schemas/VoiceUnit'
           description: The unit of the voice value is always `second`.
         createdAt:
           type: string
@@ -991,23 +991,23 @@ components:
         - voice
         - voiceUnit
         - createdAt
-    PlansPlanStatus:
+    PlanStatus:
       type: string
       enum:
         - available
         - archived
         - pending
         - draft
-    PlansPlanList:
+    PlanList:
       type: object
       properties:
         object:
-          $ref: '#/components/schemas/PlansPlanListObject'
+          $ref: '#/components/schemas/PlanListObject'
           description: Type of object is always `list`.
         items:
           type: array
           items:
-            $ref: '#/components/schemas/PlansPlan'
+            $ref: '#/components/schemas/Plan'
           description: List of objects of type `plan`.
         moreItemsAfter:
           type: string
@@ -1022,19 +1022,19 @@ components:
       required:
         - object
         - items
-    PlansPlanObject:
+    PlanObject:
       type: string
       enum:
         - plan
-    PlansPlanListObject:
+    PlanListObject:
       type: string
       enum:
         - list
-    PlansVoiceUnit:
+    VoiceUnit:
       type: string
       enum:
         - second
-    PlansValidity:
+    Validity:
       type: object
       properties:
         minimumPeriods:
@@ -1043,10 +1043,10 @@ components:
             The minimum number of subscription periods that the plan must be
             renewed. `>= 0`
         type:
-          $ref: '#/components/schemas/PlansValidityType'
+          $ref: '#/components/schemas/ValidityType'
           description: The validity type of this plan.
         unit:
-          $ref: '#/components/schemas/PlansValidityUnit'
+          $ref: '#/components/schemas/ValidityUnit'
           description: The time unit of the subscription period.
         value:
           type: integer
@@ -1058,40 +1058,40 @@ components:
         - type
         - unit
         - value
-    PlansValidityType:
+    ValidityType:
       type: string
       enum:
         - oneTime
         - recurring
-    PlansValidityUnit:
+    ValidityUnit:
       type: string
       enum:
         - day
         - month
-    PlansPlanSmsUnit:
+    PlanSmsUnit:
       type: string
       enum:
         - message
-    PlansPlanRequirements:
+    PlanRequirements:
       type: object
       properties:
         address:
-          $ref: '#/components/schemas/PlansPlanRequirementsAddress'
+          $ref: '#/components/schemas/PlanRequirementsAddress'
           description: >-
             The address requirements that must be fulfilled before a user may
             purchase a subscription.
         device:
-          $ref: '#/components/schemas/PlansPlanRequirementsDevice'
+          $ref: '#/components/schemas/PlanRequirementsDevice'
           description: >-
             The device requirements that must be fulfilled before a user may
             purchase a subscription.
         user.birthday:
-          $ref: '#/components/schemas/PlansPlanRequirementsUserBirthday'
+          $ref: '#/components/schemas/PlanRequirementsUserBirthday'
           description: >-
             The user birthday requirements that must be fulfilled before a user
             may purchase a subscription.
         user.fullName:
-          $ref: '#/components/schemas/PlansPlanRequirementsUserFullName'
+          $ref: '#/components/schemas/PlanRequirementsUserFullName'
           description: >-
             The user full name requirements that must be fulfilled before a user
             may purchase a subscription.
@@ -1100,31 +1100,31 @@ components:
         - device
         - user.birthday
         - user.fullName
-    PlansPlanRequirementsAddress:
+    PlanRequirementsAddress:
       type: string
       enum:
         - none
         - present
         - verified
-    PlansPlanRequirementsDevice:
+    PlanRequirementsDevice:
       type: string
       enum:
         - none
         - present
         - verified
-    PlansPlanRequirementsUserBirthday:
+    PlanRequirementsUserBirthday:
       type: string
       enum:
         - none
         - present
         - verified
-    PlansPlanRequirementsUserFullName:
+    PlanRequirementsUserFullName:
       type: string
       enum:
         - none
         - present
         - verified
-    PlansPrice:
+    Price:
       type: object
       properties:
         amount:
@@ -1138,15 +1138,15 @@ components:
       required:
         - amount
         - currency
-    PlansDataUnit:
+    DataUnit:
       type: string
       enum:
         - byte
-    PlansCoverage:
+    Coverage:
       type: object
       properties:
         object:
-          $ref: '#/components/schemas/PlansCoverageObject'
+          $ref: '#/components/schemas/CoverageObject'
           description: Type of object is always `coverage`.
         id:
           type: string
@@ -1168,28 +1168,28 @@ components:
         - id
         - countries
         - name
-    PlansCoverageObject:
+    CoverageObject:
       type: string
       enum:
         - coverage
-    ProjectsProjectId:
+    ProjectId:
       type: string
-    ProjectsOrganizationId:
+    OrganizationId:
       type: string
-    ProjectsProject:
+    Project:
       type: object
       properties:
         object:
           type: string
           description: Type of object is always `project`.
         id:
-          $ref: '#/components/schemas/ProjectsProjectId'
+          $ref: '#/components/schemas/ProjectId'
           description: Globally unique identifier for the project.
         image:
           type: string
           description: Small-resolution project icon with an aspect ratio of 1:1.
         legal:
-          $ref: '#/components/schemas/ProjectsLegalAddress'
+          $ref: '#/components/schemas/LegalAddress'
           description: The legal address for the company that manages the project.
         locales:
           type: array
@@ -1202,18 +1202,18 @@ components:
           type: string
           description: A human-readable name for the project.
         organization:
-          $ref: '#/components/schemas/ProjectsOrganization'
+          $ref: '#/components/schemas/Organization'
         payments:
-          $ref: '#/components/schemas/ProjectsPayments'
+          $ref: '#/components/schemas/Payments'
         subscriptionOwner:
-          $ref: '#/components/schemas/ProjectsSubscriptionOwner'
+          $ref: '#/components/schemas/SubscriptionOwner'
           description: >-
             Indicates which entity will be registered as the owner of the
             subscription with the providers. When company is selected the legal
             address associated with the project will be used for the
             registration.
         support:
-          $ref: '#/components/schemas/ProjectsSupport'
+          $ref: '#/components/schemas/Support'
           description: Contact details for consumer support requests regarding the project.
         createdAt:
           type: string
@@ -1228,7 +1228,7 @@ components:
         - payments
         - subscriptionOwner
         - createdAt
-    ProjectsLegalAddress:
+    LegalAddress:
       type: object
       description: The legal address for the company that manages the project.
       properties:
@@ -1263,14 +1263,14 @@ components:
         - line2
         - postalCode
         - state
-    ProjectsOrganization:
+    Organization:
       type: object
       properties:
         object:
           type: string
           description: Type of object is always `organization`.
         id:
-          $ref: '#/components/schemas/ProjectsOrganizationId'
+          $ref: '#/components/schemas/OrganizationId'
           description: Unique identifier for the organization.
         name:
           type: string
@@ -1284,7 +1284,7 @@ components:
         - id
         - name
         - createdAt
-    ProjectsPayments:
+    Payments:
       type: object
       description: Configuration parameters for the project use of payments.
       properties:
@@ -1294,22 +1294,22 @@ components:
             Three-letter ISO 4217 currency code representing the currency of the
             project. Must be a supported currency.
         mode:
-          $ref: '#/components/schemas/ProjectsPaymentsMode'
+          $ref: '#/components/schemas/PaymentsMode'
           description: The mode in which the payments operate.
       required:
         - currency
         - mode
-    ProjectsPaymentsMode:
+    PaymentsMode:
       type: string
       enum:
         - live
         - test
-    ProjectsSubscriptionOwner:
+    SubscriptionOwner:
       type: string
       enum:
         - user
         - company
-    ProjectsSupport:
+    Support:
       type: object
       properties:
         email:
@@ -1322,18 +1322,18 @@ components:
           description: >-
             A publicly available phone number in E.164 format for consumer
             support requests regarding the project.
-    SimsSimId:
+    SimId:
       type: string
-    SimsSimTypes:
+    SimTypes:
       type: string
       enum:
         - eSIM
         - pSIM
-    SimsSim:
+    Sim:
       type: object
       properties:
         object:
-          $ref: '#/components/schemas/SimsSimObject'
+          $ref: '#/components/schemas/SimObject'
         id:
           type: string
           description: Unique identifier for the SIM.
@@ -1346,10 +1346,10 @@ components:
           type: string
           description: The ID of the network provider of the SIM.
         status:
-          $ref: '#/components/schemas/SimsSimStatus'
+          $ref: '#/components/schemas/SimStatus'
           description: The status of the SIM.
         type:
-          $ref: '#/components/schemas/SimsSimTypes'
+          $ref: '#/components/schemas/SimTypes'
           description: The type of the SIM.
         createdAt:
           type: string
@@ -1363,52 +1363,52 @@ components:
         - status
         - type
         - createdAt
-    SimsSimObject:
+    SimObject:
       type: string
       enum:
         - sim
-    SimsSimStatus:
+    SimStatus:
       type: string
       enum:
         - inactive
         - active
         - retired
-    SubscriptionsSubscriptionId:
+    SubscriptionId:
       type: string
-    SubscriptionsSubscriptionStatus:
+    SubscriptionStatus:
       type: string
       enum:
         - pending
         - active
         - ended
-    SubscriptionsSubscription:
+    Subscription:
       type: object
       properties:
         object:
-          $ref: '#/components/schemas/SubscriptionsSubscriptionObject'
+          $ref: '#/components/schemas/SubscriptionObject'
           description: Type of object is always `subscription`.
         id:
           type: string
           description: Unique identifier for the subscription.
         currentPeriod:
-          $ref: '#/components/schemas/SubscriptionsCurrentPeriod'
+          $ref: '#/components/schemas/CurrentPeriod'
         phoneNumber:
           type: string
           description: >-
             The phone number attached to the SIM in E.164 format. Only available
             for voice plans.
         plan:
-          $ref: '#/components/schemas/PlansPlan'
+          $ref: '#/components/schemas/Plan'
         porting:
           type: string
           description: Unique identifier for the porting.
         sim:
-          $ref: '#/components/schemas/SimsSim'
+          $ref: '#/components/schemas/Sim'
         status:
-          $ref: '#/components/schemas/SubscriptionsSubscriptionStatus'
+          $ref: '#/components/schemas/SubscriptionStatus'
           description: The current status of the subscription.
         user:
-          $ref: '#/components/schemas/UsersUser'
+          $ref: '#/components/schemas/User'
         activatedAt:
           type: string
           format: date-time
@@ -1441,7 +1441,7 @@ components:
         - createdAt
         - endedAt
         - firstUsageAt
-    SubscriptionsSubscriptionList:
+    SubscriptionList:
       type: object
       properties:
         object:
@@ -1450,7 +1450,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/SubscriptionsSubscriptionItem'
+            $ref: '#/components/schemas/SubscriptionItem'
           description: List of objects of type `subscription`.
         moreItemsAfter:
           type: string
@@ -1465,34 +1465,34 @@ components:
       required:
         - object
         - items
-    SubscriptionsSubscriptionItem:
+    SubscriptionItem:
       type: object
       properties:
         object:
           type: string
           description: Type of object is always `subscription`.
         id:
-          $ref: '#/components/schemas/SubscriptionsSubscriptionId'
+          $ref: '#/components/schemas/SubscriptionId'
           description: Unique identifier for the subscription.
         currentPeriod:
-          $ref: '#/components/schemas/SubscriptionsCurrentPeriod'
+          $ref: '#/components/schemas/CurrentPeriod'
         phoneNumber:
           type: string
           description: >-
             The phone number attached to the SIM in E.164 format. Only available
             for voice plans.
         plan:
-          $ref: '#/components/schemas/PlansPlan'
+          $ref: '#/components/schemas/Plan'
         porting:
           type: string
           description: Unique identifier for the porting.
         sim:
-          $ref: '#/components/schemas/SimsSim'
+          $ref: '#/components/schemas/Sim'
         status:
-          $ref: '#/components/schemas/SubscriptionsSubscriptionStatus'
+          $ref: '#/components/schemas/SubscriptionStatus'
           description: The current status of the subscription.
         user:
-          $ref: '#/components/schemas/UsersUser'
+          $ref: '#/components/schemas/User'
         activatedAt:
           type: string
           format: date-time
@@ -1526,7 +1526,7 @@ components:
         - createdAt
         - endedAt
         - firstUsageAt
-    SubscriptionsCurrentPeriod:
+    CurrentPeriod:
       type: object
       properties:
         number:
@@ -1544,19 +1544,19 @@ components:
         - number
         - start
         - end
-    SubscriptionsSubscriptionObject:
+    SubscriptionObject:
       type: string
       enum:
         - subscription
-    UsersUserObject:
+    UserObject:
       type: string
       enum:
         - user
-    UsersUser:
+    User:
       type: object
       properties:
         object:
-          $ref: '#/components/schemas/UsersUserObject'
+          $ref: '#/components/schemas/UserObject'
           description: Type of object is always `user`.
         id:
           type: string
@@ -1600,3 +1600,4 @@ components:
       scheme: bearer
 servers:
   - url: https://api.gigs.com
+    description: Production
