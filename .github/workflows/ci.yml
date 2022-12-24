@@ -14,4 +14,5 @@ jobs:
           env: 
             # Get the CI token from project settings on your Stoplight workspace
             # Go to https://{workspace}.stoplight.io/settings/{project}/automation
+            # Relevant docs: https://meta.stoplight.io/docs/platform/f76c84240244f-publish-with-the-stoplight-cli#continuous-integration
             STOPLIGHT_CI_TOKEN: ${{ secrets.STOPLIGHT_CI_TOKEN }}
