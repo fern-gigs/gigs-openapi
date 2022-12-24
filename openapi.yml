@@ -6,7 +6,7 @@ info:
     countries.
 
     support@gigs.com
-  version: 0.0.25
+  version: 0.0.26
 paths:
   /deviceModels/{id}:
     get:
@@ -103,6 +103,9 @@ paths:
           required: false
           schema:
             type: string
+          examples:
+            Example1:
+              value: 01G7PFYGYN8WC45QG5GVF8V07V
         - name: before
           in: query
           description: >-
@@ -112,6 +115,9 @@ paths:
           required: false
           schema:
             type: string
+          examples:
+            Example1:
+              value: 01FKPSFG45QG901FV07WYN8WC
         - name: limit
           in: query
           description: |
@@ -121,18 +127,27 @@ paths:
           required: false
           schema:
             type: integer
+          examples:
+            Example1:
+              value: 10
         - name: plan
           in: query
           description: The unique identifier for the plan to be filtered by.
           required: false
           schema:
             $ref: '#/components/schemas/PlanId'
+          examples:
+            Example1:
+              value: pln_0SNlurA049MEWV3V0q7gjQbM4EVo
         - name: sim
           in: query
           description: The unique identifier for the sim to be filtered by.
           required: false
           schema:
             $ref: '#/components/schemas/SimId'
+          examples:
+            Example1:
+              value: sim_0SNlurA049MEWV1BAAmWZULA4lf6
         - name: status
           in: query
           description: >-
@@ -141,12 +156,18 @@ paths:
           required: false
           schema:
             $ref: '#/components/schemas/PlanStatus'
+          examples:
+            Example1:
+              value: available
         - name: user
           in: query
           description: The unique identifier for the user to be filtered by.
           required: false
           schema:
             type: string
+          examples:
+            Example1:
+              value: usr_0SNlurA049MEWV4OpCwsNyC9Kn2d
       responses:
         '200':
           description: Returns a list of plan objects.
