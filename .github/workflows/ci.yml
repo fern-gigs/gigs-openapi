@@ -10,9 +10,9 @@ jobs:
         - uses: actions/checkout@v3
         - name: Push to Stoplight
           run: |
-            npx @stoplight/cli@6 push --ci-token ${STOPLIGHT_CI_TOKEN_FERN_GIGS} --url https://fern-api.stoplight.io/
+            npx @stoplight/cli@6 push --ci-token ${{ env.STOPLIGHT_CI_TOKEN_FERN_GIGS }}
           env: 
             # Get the CI token from project settings on your Stoplight workspace
             # Go to https://{workspace}.stoplight.io/settings/{project}/automation
             # Relevant docs: https://meta.stoplight.io/docs/platform/f76c84240244f-publish-with-the-stoplight-cli#continuous-integration
-            STOPLIGHT_CI_TOKEN: ${{ secrets.STOPLIGHT_CI_TOKEN }}
+            STOPLIGHT_CI_TOKEN_FERN_GIGS: ${{ secrets.STOPLIGHT_CI_TOKEN_FERN_GIGS }}
